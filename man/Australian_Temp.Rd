@@ -47,24 +47,29 @@ Australian daily minimum temperature climate data for 8 different stations are p
 library(fda)
 library(reshape2)
 fun_data_S = Australian_Temp$Sydney
-D=21
+D = 21
 basis = create.fourier.basis(rangeval = c(0, 1), nbasis = D)
-# vectorize the data based on year-month
-fun_data_S$md = with(fun_data_S, paste(Month, Day, sep="_"))
-# get rid of NAs
 nas = which(is.na(fun_data_S$Days.of.accumulation.of.minimum.temperature))
 fun_data_S = fun_data_S[-nas, ]
-# Rearrange the data based on years
-dataS = dcast(fun_data_S, formula = md~ Year, value.var = "Minimum.temperature..Degree.C.")[,-1]
-# convert the discretized data into functional data
-mat.S = matrix(0, D, ncol(dataS))
-for (i in 1:ncol(dataS)){
- vec = dataS[,i][!(is.na(dataS[,i]))]
- f_Obs = Data2fd(argvals=seq(0, 1, length = length(vec)) , vec, basisobj = basis)
+yy = unique(fun_data_S$Year)
+mat.S = matrix(0, D, length(yy))
+for (i in 1:length(yy)){
+ aa = subset(fun_data_S, Year==yy[i])
+ cc = aa$Minimum.temperature..Degree.C.
+ a = which(is.na(cc))
+ if (length(a)>0){
+ cc = cc[-which(is.na(cc))]
+ }else{
+   cc = cc
+ }
+ f_Obs = Data2fd(argvals=seq(0, 1, length = length(cc)) , cc, basisobj = basis)
  mat.S[, i] = f_Obs$coefs
 }
-fdata_S = fd(mat.S, basis)
-plot(fdata_S)
+fdata = fd(mat.S, basis)
+# note that the last year, has data only up to 6 months
+# therefore we remove it
+fdata = fdata[-length(yy)]
+plot(fdata)
 }
 \references{
 Australian Government Bureau of Meteorology

@@ -49,42 +49,50 @@
 #' # in the middle of the data with SNR=2
 #' insert_change(fdata, change_fun = fdata[20], change_location=0.5, SNR=2)
 
-insert_change = function(fdobj, change_fun=NULL, k=NULL, change_location, SNR, plot=TRUE, ...){
-   if (class(fdobj)!="fd"){stop("Data is not a 'fd' class ")}
-   n = ncol(fdobj$coefs)
-   nbasis = nrow(fdobj$coefs)
-   basis = fdobj$basis
-   fun_mu = center.fd(fdobj)
-   cdata = center.fd(fdobj)
-   dat = cdata$coefs
-   tr = sum(diag(cov(t(dat))))
-   theta = change_location
-   c = SNR*tr/(theta*(1-theta)*sqrt(nbasis))
-   if (is.null(k) & is.null(change_fun)){
-      stop("Define the change function")
-   }
-   if (is.null(change_fun) & is.null(k)==FALSE){
-      change_coef = c(rep(1, k), rep(0, nbasis-k))
-      v_hat = fd(change_coef, fdobj$basis)
-      Change = v_hat$coefs*sqrt(c/k)
-   }else{
-      v_hat = change_fun
-      kk = inprod(v_hat, v_hat)[1,1]
-      Change = v_hat$coefs*sqrt(c/kk)
-   }
-   newdata = dat
-   if (theta>1 || theta<0){stop("Change location must be in [0,1]")}
-   x = theta*n
-   for (i in (x+1):n){
-      newdata[ ,i] = dat[ ,i] + Change
-   }
-   fdata = fd(newdata, basis) + fun_mu
-   if (plot==FALSE){
-      list(fundata = fdata, change_fun = v_hat)
-   }else{
-      plot(fdata, col="grey")
-      lines(fdata[(x+1):n], col="red")
-      lines(fdata[1:x], col="blue")
-      list(fundata = fdata, change_fun = v_hat)
-   }
+insert_change = function (fdobj, change_fun = NULL, k = NULL, change_location, SNR, plot = TRUE, ...){
+  if (class(fdobj) != "fd") {
+    stop("Data is not a 'fd' class ")
+  }
+  n = ncol(fdobj$coefs)
+  nbasis = nrow(fdobj$coefs)
+  basis = fdobj$basis
+
+  # fun_mu = center.fd(fdobj) -- THIS IS THE BUG!
+  fun_mu = mean.fd(fdobj)
+  cdata = center.fd(fdobj)
+  dat = cdata$coefs
+  tr = sum(diag(cov(t(dat))))
+  theta = change_location
+  c = SNR * tr/(theta * (1 - theta) * sqrt(nbasis))
+  if (is.null(k) & is.null(change_fun)) {
+    stop("Define the change function")
+  }
+  if (is.null(change_fun) & is.null(k) == FALSE) {
+    change_coef = c(rep(1, k), rep(0, nbasis - k))
+    v_hat = fd(change_coef, fdobj$basis)
+    Change = v_hat$coefs * sqrt(c/k)
+  }
+  else {
+    v_hat = change_fun
+    kk = inprod(v_hat, v_hat)[1, 1]
+    Change = v_hat$coefs * sqrt(c/kk)
+  }
+  newdata = dat
+  if (theta > 1 || theta < 0) {
+    stop("Change location must be in [0,1]")
+  }
+  x = theta * n
+  for (i in (x + 1):n) {
+    newdata[, i] = dat[, i] + Change + fun_mu$coefs
+  }
+  fdata = fd(newdata, basis)
+  if (plot == FALSE) {
+    list(fundata = fdata, change_fun = v_hat)
+  }
+  else {
+    plot(fdata, col = "grey")
+    lines(fdata[(x + 1):n], col = "red")
+    lines(fdata[1:x], col = "blue")
+    list(fundata = fdata, change_fun = v_hat)
+  }
 }

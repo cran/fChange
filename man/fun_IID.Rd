@@ -4,7 +4,8 @@
 \alias{fun_IID}
 \title{Simulate Independent Functional Data}
 \usage{
-fun_IID(n, nbasis, Sigma = NULL, basis = NULL, rangeval = c(0, 1), ...)
+fun_IID(n, nbasis, Sigma = NULL, basis = NULL, rangeval = c(0, 1),
+  ...)
 }
 \arguments{
 \item{n}{Sample size of generated functional data. A strictly positive integer}

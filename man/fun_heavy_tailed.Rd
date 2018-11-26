@@ -4,7 +4,8 @@
 \alias{fun_heavy_tailed}
 \title{Simulate Heavy Tailed Independent Functional Data}
 \usage{
-fun_heavy_tailed(n, nbasis, df = 3, basis = NULL, rangeval = c(0, 1), ...)
+fun_heavy_tailed(n, nbasis, df = 3, basis = NULL, rangeval = c(0, 1),
+  ...)
 }
 \arguments{
 \item{n}{Sample size of generated functional data. A strictly positive integer}
