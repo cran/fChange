@@ -1,7 +1,7 @@
 Package: fChange
 Type: Package
 Title: Change Point Analysis in Functional Data
-Version: 0.2.0
+Version: 0.2.1
 Author: Ozan Sonmez, Alexander Aue, Gregory Rice
 Maintainer: Ozan Sonmez <osonmez@ucdavis.edu>
 Description: Change point estimation and detection methods for functional data are implemented using dimension reduction via functional principal component analysis and a fully-functional (norm-based) method. Detecting and dating structural breaks for both dependent and independent functional samples is illustrated along with some basic functional data generating processes. 
@@ -12,6 +12,6 @@ Depends: R (>= 2.10)
 Imports: fda, sde, stats, sandwich, reshape2, lattice
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2018-11-25 23:59:33 UTC; ozansonmez
+Packaged: 2019-02-24 20:50:58 UTC; ozansonmez
 Repository: CRAN
-Date/Publication: 2018-11-26 05:20:02 UTC
+Date/Publication: 2019-02-24 21:10:03 UTC
