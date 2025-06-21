@@ -6,7 +6,14 @@
 \alias{is.dfts}
 \title{dfts Objects}
 \usage{
-dfts(X, name = NULL, labels = NULL, fparam = NULL, inc.warnings = TRUE)
+dfts(
+  X,
+  name = NULL,
+  labels = NULL,
+  fparam = NULL,
+  season = 1,
+  inc.warnings = TRUE
+)
 
 as.dfts(X)
 
@@ -29,6 +36,8 @@ names inside of the object X.}
 observation. Defaults to even spacing on [0,1], or those included in the
 object. These may be unevenly spaced.}
 
+\item{season}{Numeric indicating the seasonal period in the data.}
+
 \item{inc.warnings}{Boolean on if warnings should be given. Defaults to TRUE.}
 }
 \value{
@@ -43,7 +52,7 @@ Common functions have been extended to dfts. Details of the storage is best
 left to individual parameters descriptions and exploring examples.
 }
 \examples{
-bm <- dfts(generate_brownian_motion(100, c(0,0.1,0.25,0.5,1)))
+bm <- dfts(generate_brownian_motion(100, c(0, 0.1, 0.25, 0.5, 1)))
 
 result <- dfts(electricity)
 result <- as.dfts(electricity)

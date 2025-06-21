@@ -1,25 +1,25 @@
-
 #' Plot Data with Forecast Bands
 #'
 #' @inheritParams plot.dfts
 #' @param lower Matrix of resolution-by-estimates indicating the lower bounds
 #' @param upper Matrix of resolution-by-estimates indicating the upper bounds
+#' @param ... Unused details
 #'
 #' @returns Plotly Plot
 #'
 #' @noRd
 #' @keywords internal
-.plot_forecast <- function(X, lower, upper, changes=NULL,
+.plot_forecast <- function(X, lower, upper, changes = NULL,
                            plot_title = X$name,
                            val_axis_title = "Value",
                            res_axis_title = "Resolution",
                            FD_axis_title = "Observations",
-                           eye = list(x = -1.5, y = -1.5, z = 1.5),
+                           eye = list(x = 0.75, y = -1.5, z = 0.75),
                            aspectratio = NULL,
-                           showticklabels = TRUE){
+                           showticklabels = TRUE, ...) {
   # Get Sizes
-  pred_n <- max(ncol(lower),ncol(upper))
-  changes <- unique(c(changes, ncol(X)-pred_n))
+  pred_n <- max(ncol(lower), ncol(upper))
+  changes <- unique(c(changes, ncol(X) - pred_n))
 
   # Setup Data
   plotData <- plotData_forecast <- plotData_lower <- plotData_upper <- data.frame()
@@ -51,7 +51,7 @@
         )
       }
     }
-  } else{
+  } else {
     for (j in 1:min(changes)) {
       plotData <- rbind(
         plotData,
@@ -63,7 +63,6 @@
         )
       )
     }
-
   }
 
   # Forecast Data
@@ -84,7 +83,7 @@
         "resolution" = X$fparam,
         "FDRep" = j,
         "Color" = max(changes) + 1,
-        "Value" = lower[,j-max(changes)]
+        "Value" = lower[, j - max(changes)]
       )
     )
 
@@ -94,7 +93,7 @@
         "resolution" = X$fparam,
         "FDRep" = j,
         "Color" = max(changes) + 1,
-        "Value" = upper[,j-max(changes)]
+        "Value" = upper[, j - max(changes)]
       )
     )
   }
@@ -102,21 +101,22 @@
 
   # Get Colors
   if (length(changes) > 1) {
-    plot_colors <- RColorBrewer::brewer.pal(min(9, max(3, length(changes))), "Set1")[1:min(9,length(changes))]
-    if (length(changes)-1 > 9) {
+    plot_colors <- RColorBrewer::brewer.pal(min(9, max(3, length(changes))), "Set1")[1:min(9, length(changes))]
+    if (length(changes) - 1 > 9) {
       plot_colors <- rep(plot_colors, ceiling(c(length(changes) + 1) / 9))[1:length(changes)]
     }
 
-    plot_colors <- c(plot_colors,'black')
-    names(plot_colors) <- c(1:(length(changes)),changes[length(changes)]+1)
-  } else{
+    plot_colors <- c(plot_colors, "black")
+    names(plot_colors) <- c(1:(length(changes)), changes[length(changes)] + 1)
+  } else {
     plot_colors <- RColorBrewer::brewer.pal(11, "Spectral")
     plot_colors[6] <- "yellow"
-    plot_colors <- c(grDevices::colorRampPalette(plot_colors)(changes),'black')
-    names(plot_colors) <- c(1:(changes+1))
+    plot_colors <- c(grDevices::colorRampPalette(plot_colors)(changes), "black")
+    names(plot_colors) <- c(1:(changes + 1))
   }
 
   # Setup View
+  if (is.null(aspectratio)) aspectratio <- list(x = 0.8, y = 0.5, z = 0.5)
   scene <- list(
     camera = list(eye = eye),
     aspectmode = "manual",
@@ -124,26 +124,28 @@
   )
 
   # Plot
-  plotly::plot_ly(rbind(plotData,plotData_forecast),
-                  x = ~ as.factor(FDRep), y = ~resolution, z = ~Value,
-                  type = "scatter3d", mode = "lines",
-                  split = ~ as.factor(FDRep),
-                  color = ~ as.factor(Color),
-                  colors = plot_colors
+  plotly::plot_ly(rbind(plotData, plotData_forecast),
+    x = ~ as.factor(FDRep), y = ~resolution, z = ~Value,
+    type = "scatter3d", mode = "lines",
+    split = ~ as.factor(FDRep),
+    color = ~ as.factor(Color),
+    colors = plot_colors
   ) %>%
-    plotly::add_lines(data=plotData_lower,
-                      x = ~ as.factor(FDRep), y = ~resolution, z = ~Value,
-                      type = "scatter3d", mode = "lines",
-                      split = ~ as.factor(FDRep),
-                      colors = 'black',
-                      opacity=0.15
+    plotly::add_lines(
+      data = plotData_lower,
+      x = ~ as.factor(FDRep), y = ~resolution, z = ~Value,
+      type = "scatter3d", mode = "lines",
+      split = ~ as.factor(FDRep),
+      colors = "black",
+      opacity = 0.15
     ) %>%
-    plotly::add_lines(data=plotData_upper,
-                      x = ~ as.factor(FDRep), y = ~resolution, z = ~Value,
-                      type = "scatter3d", mode = "lines",
-                      split = ~ as.factor(FDRep),
-                      colors = 'black',
-                      opacity=0.15
+    plotly::add_lines(
+      data = plotData_upper,
+      x = ~ as.factor(FDRep), y = ~resolution, z = ~Value,
+      type = "scatter3d", mode = "lines",
+      split = ~ as.factor(FDRep),
+      colors = "black",
+      opacity = 0.15
     ) %>%
     plotly::layout(
       scene = list(

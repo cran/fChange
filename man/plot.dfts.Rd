@@ -59,8 +59,8 @@ observations (FD).}
 
 \item{distribution}{String of the distribution to compare against in.
 distribution plot. The string can be anything such that there is a
-rdistribution and ddistribution function available. For example "exp",
-"gamma". Additional parameters can be passed using ... .}
+rdistribution and ddistribution function available. For example 'exp',
+'gamma'. Additional parameters can be passed using ... .}
 
 \item{method}{Method for computing ACF/PACF. Options include 'Welch', 'MC',
 and 'Imhof'.}
@@ -85,7 +85,7 @@ Provides various visualizations for functional data.
 }
 \examples{
 plt <- plot(electricity)
-plt <- plot(dfts(var(electricity)), type='surface')
+plt <- plot(dfts(var(electricity)), type = "surface")
 }
 \references{
 John Fox, & Sanford Weisberg (2019). An R Companion to Applied

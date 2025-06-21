@@ -1,6 +1,6 @@
 Package: fChange
 Title: Functional Change Point Detection and Analysis
-Version: 2.0.0
+Version: 2.1.0
 Authors@R: c(
     person("Jeremy", "VanderDoes", , "jeremy.vanderdoes@gmail.com", 
     role = c("aut", "cre","cph"),
@@ -21,7 +21,7 @@ Imports: dplyr, fastmatrix, fda, ftsa, ggplot2, ggpubr, graphics,
         RColorBrewer, Rcpp, RcppArmadillo, Rfast, sandwich, scales,
         stats, tensorA, tidyr, vars
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Suggests: CompQuadForm, fda.usc, forecast, funData, jmuOutlier, knitr,
         lattice, rmarkdown, testthat (>= 3.0.0)
 Depends: R (>= 2.10)
@@ -30,11 +30,11 @@ URL: https://jrvanderdoes.github.io/fChange/
 Config/testthat/edition: 3
 License: GPL (>= 3)
 NeedsCompilation: yes
-Packaged: 2025-03-26 16:36:05 UTC; jerem
-Author: Jeremy VanderDoes [aut, cre, cph]
-    (<https://orcid.org/0009-0001-9885-3073>),
+Packaged: 2025-06-21 03:07:28 UTC; jerem
+Author: Jeremy VanderDoes [aut, cre, cph] (ORCID:
+    <https://orcid.org/0009-0001-9885-3073>),
   Gregory Rice [aut],
   Martin Wendler [aut]
 Maintainer: Jeremy VanderDoes <jeremy.vanderdoes@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-03-27 18:00:09 UTC
+Date/Publication: 2025-06-21 03:30:02 UTC

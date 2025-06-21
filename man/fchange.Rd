@@ -32,7 +32,8 @@ fchange(
   errors = "L2",
   recommendation_change_points = 2,
   recommendation_improvement = 0.15,
-  silent.binary = FALSE
+  silent.binary = FALSE,
+  ...
 )
 }
 \arguments{
@@ -107,6 +108,8 @@ plot recommendation.}
 
 \item{silent.binary}{Boolean if output should be printed when running binary
 segmentation.}
+
+\item{...}{Unused additional parameters.}
 }
 \value{
 When type is single, returns a list:
@@ -131,7 +134,7 @@ are given, where single or multiple changes can be detected. Multiple change
 extensions currently include binary segmentation and elbow plots.
 }
 \examples{
-res <- fchange(electricity$data[,1:20],method='characteristic',critical = 'welch')
+res <- fchange(electricity$data[, 1:20], method = "characteristic", critical = "welch")
 }
 \references{
 Aue, A., Rice, G., & Sonmez, O. (2018). Detecting and dating structural

@@ -11,7 +11,8 @@ kpss_test(
   M = 1000,
   blocksize = 2 * ncol(X)^(1/5),
   TVE = 1,
-  replace = TRUE
+  replace = TRUE,
+  return.info = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ will be identical.}
 
 \item{replace}{Boolean to indicate if blocks should be selected with
 replacement when using a resample test.}
+
+\item{return.info}{Boolean if all information on test statistic and null
+distribution should be returned or just the p-value (default).}
 }
 \value{
 List with the following elements:
@@ -48,11 +52,10 @@ Compute the Kwiatkowski–Phillips–Schmidt–Shin (KPSS) statistic for
 functional data.
 }
 \examples{
-kpss_test(generate_brownian_motion(100,v=seq(0,1,length.out=20)))
-kpss_test(generate_brownian_motion(100,v=seq(0,1,length.out=20)),
-             method="resample")
-kpss_test(generate_brownian_motion(100,v=seq(0,1,length.out=20)),
-             method='resample', resample_blocks='overlapping')
+kpss_test(generate_brownian_motion(100, v = seq(0, 1, length.out = 20)))
+kpss_test(generate_brownian_motion(100, v = seq(0, 1, length.out = 20)),
+  method = "resample", resample_blocks = "overlapping"
+)
 }
 \references{
 Chen, Y., & Pun, C. S. (2019). A bootstrap-based KPSS test for
